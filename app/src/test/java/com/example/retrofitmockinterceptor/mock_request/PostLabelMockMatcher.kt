@@ -12,7 +12,7 @@ class PostLabelMockMatcher : PostRequestMock {
     }
 
     override fun urlPattern(): Pattern {
-        val urlRegex = "https://staging.later.com/api/v2/labels"
+        val urlRegex = "https://random.url.com/api/v2/labels"
         return Pattern.compile(urlRegex)
     }
 }

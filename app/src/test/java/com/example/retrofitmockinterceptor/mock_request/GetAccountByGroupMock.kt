@@ -11,7 +11,7 @@ class GetAccountByGroupMock : GetRequestMock {
     }
 
     override fun urlPattern(): Pattern {
-        val urlRegex = "https://staging.later.com/api/v2/users/[0-9]+/accounts[?]group=[0-9]+"
+        val urlRegex = "https://random.url.com/api/v2/users/[0-9]+/accounts[?]group=[0-9]+"
         return Pattern.compile(urlRegex)
     }
 }

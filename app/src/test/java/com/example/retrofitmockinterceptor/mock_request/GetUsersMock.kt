@@ -11,7 +11,7 @@ class GetUsersMock : GetRequestMock {
     }
 
     override fun urlPattern(): Pattern {
-        val urlRegex = "https://staging.later.com/api/v2/users/me"
+        val urlRegex = "https://random.url.com/api/v2/users/me"
         return Pattern.compile(urlRegex)
     }
 }

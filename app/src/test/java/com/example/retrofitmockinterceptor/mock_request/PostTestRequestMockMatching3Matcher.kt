@@ -9,7 +9,7 @@ import java.util.regex.Pattern
 
 class PostTestRequestMockMatching3Matcher : PostRequestMock {
     override fun urlPattern(): Pattern {
-        return Pattern.compile("https://staging.later.com/api/mock/test")
+        return Pattern.compile("https://random.url.com/api/mock/test")
     }
 
     override fun response(): MockResponse {

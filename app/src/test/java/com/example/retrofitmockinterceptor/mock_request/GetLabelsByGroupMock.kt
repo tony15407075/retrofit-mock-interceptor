@@ -11,7 +11,7 @@ class GetLabelsByGroupMock : GetRequestMock {
     }
 
     override fun urlPattern(): Pattern {
-        val urlRegex = "https://staging.later.com/api/v2/labels[?]group_id=[0-9]+"
+        val urlRegex = "https://random.url.com/api/v2/labels[?]group_id=[0-9]+"
         return Pattern.compile(urlRegex)
     }
 }

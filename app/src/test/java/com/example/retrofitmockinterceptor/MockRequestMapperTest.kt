@@ -55,13 +55,13 @@ class MockRequestMapperTest {
     @Test
     fun test_mock_get_success() {
         val testData = listOf(
-            Pair("https://staging.later.com/api/v2/users/32/accounts?group=132", GetAccountMockSuccess()),
-            Pair("https://staging.later.com/api/v2/users/3/accounts?group=3213", GetAccountMockSuccess()),
-            Pair("https://staging.later.com/api/v2/users/32/accounts?group=21", GetAccountMockSuccess()),
-            Pair("https://staging.later.com/api/v2/users/me", GetUserSuccessMock()),
-            Pair("https://staging.later.com/api/v2/users/122323/accounts", GetAccountMockSuccess()),
-            Pair("https://staging.later.com/api/v2/users/12/accounts", GetAccountMockSuccess()),
-            Pair("https://staging.later.com/api/v2/users/123/accounts", GetAccountSpecificMockSuccess()),
+            Pair("https://random.url.com/api/v2/users/32/accounts?group=132", GetAccountMockSuccess()),
+            Pair("https://random.url.com/api/v2/users/3/accounts?group=3213", GetAccountMockSuccess()),
+            Pair("https://random.url.com/api/v2/users/32/accounts?group=21", GetAccountMockSuccess()),
+            Pair("https://random.url.com/api/v2/users/me", GetUserSuccessMock()),
+            Pair("https://random.url.com/api/v2/users/122323/accounts", GetAccountMockSuccess()),
+            Pair("https://random.url.com/api/v2/users/12/accounts", GetAccountMockSuccess()),
+            Pair("https://random.url.com/api/v2/users/123/accounts", GetAccountSpecificMockSuccess()),
 
             Pair("https://mock.later.com/api/v2/steven/query?name=122&id=32", GetTestMock1Success()),
             Pair("https://mock.later.com/api/v2/23/query?name=steven&id=3", GetTestMock1Success()),
@@ -164,7 +164,7 @@ class MockRequestMapperTest {
             "https://www.bad.http.request/api/v2/users/32/accounts?group=132",
             "https://www.bad.http.request/api/v2/users/3/accounts?group=3213",
             "https://www.bad.http.request/api/v2/userss/3/accounts?group=3213",
-            "https://staging.later.com/api/v2/users/122323/accounts?id=2321",
+            "https://random.url.com/api/v2/users/122323/accounts?id=2321",
             "https://mock.later.com/api/v2/123dsa/query?name=robinhood&id=32&speed=high"
         )
 
@@ -181,27 +181,27 @@ class MockRequestMapperTest {
     fun test_mock_post_success() {
         val negativeId = -23
         val testData = listOf(
-            Triple("https://staging.later.com/api/v2/labels", AddLabelRequestParam(1, "Test_Title"), PostLabelMockSuccess()),
-            Triple("https://staging.later.com/api/v2/labels", AddLabelRequestParam(223, "specific_1"), PostLabelMockSuccess()),
-            Triple("https://staging.later.com/api/v2/labels", AddLabelRequestParam(23, "specific"), PostLabelMockSuccess()),
-            Triple("https://staging.later.com/api/v2/labels", AddLabelRequestParam(233, "specific"), PostLabelSpecificMockSuccess()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("title", 1, "name", "Canada"), PostTestRequestMockSuccess()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("title", 1, "John", "Sweden"), PostTestRequestMockMatchingSuccess1()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("title-not-matter", 23211, "John", "Sweden"), PostTestRequestMockMatchingSuccess1()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("title", 2, "Tony", "Canada"), PostTestRequestMockMatchingSuccess2()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("title-not-matter", 2, "Tony", "Canada"), PostTestRequestMockMatchingSuccess2()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("rambo", 232, "Tony_Rambo", "China"), PostTestRequestMockMatchingSuccess3()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("rambo", 232, "does-not-matter", "China"), PostTestRequestMockMatchingSuccess3()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("rambo", 232, "does-not-matter-2", "China"), PostTestRequestMockMatchingSuccess3()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("rambo", 232, "name-wrong", "Korea"), PostTestRequestMockSuccess()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("rambo", 23, "Tony_Rambo", "China"), PostTestRequestMockSuccess()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("rambo-wrong", 232, "Tony_Rambo", "China"), PostTestRequestMockSuccess()),
+            Triple("https://random.url.com/api/v2/labels", AddLabelRequestParam(1, "Test_Title"), PostLabelMockSuccess()),
+            Triple("https://random.url.com/api/v2/labels", AddLabelRequestParam(223, "specific_1"), PostLabelMockSuccess()),
+            Triple("https://random.url.com/api/v2/labels", AddLabelRequestParam(23, "specific"), PostLabelMockSuccess()),
+            Triple("https://random.url.com/api/v2/labels", AddLabelRequestParam(233, "specific"), PostLabelSpecificMockSuccess()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("title", 1, "name", "Canada"), PostTestRequestMockSuccess()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("title", 1, "John", "Sweden"), PostTestRequestMockMatchingSuccess1()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("title-not-matter", 23211, "John", "Sweden"), PostTestRequestMockMatchingSuccess1()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("title", 2, "Tony", "Canada"), PostTestRequestMockMatchingSuccess2()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("title-not-matter", 2, "Tony", "Canada"), PostTestRequestMockMatchingSuccess2()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("rambo", 232, "Tony_Rambo", "China"), PostTestRequestMockMatchingSuccess3()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("rambo", 232, "does-not-matter", "China"), PostTestRequestMockMatchingSuccess3()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("rambo", 232, "does-not-matter-2", "China"), PostTestRequestMockMatchingSuccess3()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("rambo", 232, "name-wrong", "Korea"), PostTestRequestMockSuccess()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("rambo", 23, "Tony_Rambo", "China"), PostTestRequestMockSuccess()),
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("rambo-wrong", 232, "Tony_Rambo", "China"), PostTestRequestMockSuccess()),
 
             Triple("https://mock.later.com/api/mock/1", TestMockRequest("rambo-wrong", 232, "Tony_Rambo", "China"), PostTestMock4Success()),
             Triple("https://mock.later.com/api/mock/2", TestMockRequest("rambo-wrong", 232, "Tony_Rambo", "China"), PostTestMock4Success()),
 
             Triple("https://mock.later.com/api/mock/$negativeId", TestMockRequest("rambo-wrong", 232, "Tony_Rambo", "China"), PostTestMock5Success()),
-            Triple("https://staging.later.com/api/mock/test", TestMockRequest("rambo-wrong", 32, "Tony_Rambo", "China-wrong"), PostTestRequestMockSuccess())
+            Triple("https://random.url.com/api/mock/test", TestMockRequest("rambo-wrong", 32, "Tony_Rambo", "China-wrong"), PostTestRequestMockSuccess())
         )
 
         testData.forEach { datum ->
