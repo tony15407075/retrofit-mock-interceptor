@@ -1,7 +1,11 @@
 # Retrofit-Mock-Interceptor  (Under-Construction)
 
-Light weight retrofit response mocker that seamlessly plugs into your existing Android retrofit+okhttp networking infrastructure.
-Easy, light-weight, and simple :slightly_smiling_face:.
+Light weight retrofit response mocker that easily integrates with existing Retrofit+OkHttp setup.
+
+- Supports `.json` mock response files
+- Supports regex url path mapping, highly configurable
+- Plug and play, integrates seamlessly with existing retrofit+okhttp networking infrastructure.
+- Light weight
 
 ## Installation
 1. Add jitpack to project build.gradle
@@ -21,9 +25,65 @@ allprojects {
 
 ## Usage
 
-```kotlin
-// Full url being https://mock.server.com/users
+### Example 1 - simple GET request
 
+1.  Suppose you have defined this retrofit `GET` request in your app.
+```kotlin
+// Suppose full url = https://www.some_base_url.com/users/{id}
 @GET("user/{id}")
 fun getUser(@Path("id") id: String) : Call<User>
+```
+
+2.  To mock the above `GET` request, you need to map it to a `GetRequestMock`, with the proper regex pattern.
+```kotlin
+class GetUserMockSuccess : GetRequestMock {
+
+    override fun urlPattern(): Pattern {
+        // https://www.some_base_url.com/2 --> Match
+        // https://www.some_base_url.com/10 --> Match
+        // https://www.some_base_url.com/223 --> Match
+        // https://www.some_base_url.com/tommy --> Non_Match
+        
+        // Mock class maps to below url pattern
+        return Pattern.compile("https://www.some_base_url.com/[0-9]+")
+    }
+
+    override fun response(): MockResponse {
+        // Returns this [MockResponse] upon successfully intercepting request with url pattern defined above
+        return GetUserMockResponse()
+    }
+}
+```
+
+3.  Next define a corresponding `MockResponse` object
+```kotlin
+class GetUserMockResponse : MockResponse {
+    override fun fileResId(): Int {
+        // .json file of the mock response
+        return R.raw.get_user_mock_response
+    }
+
+    override fun statusCode(): Int {
+        // status code of the response
+        return 200
+    }
+}
+```
+
+4.  Create a `get_user_mock_response.json` your resources `/res/raw/` directory.[examples](https://github.com/tony15407075/retrofit-mock-interceptor/blob/master/app/src/debug/res/raw/test_mock_get_success.json)
+
+5.  Populate the `get_user_mock_response.json`
+
+```json
+{
+  "name" :  "name-mock",
+  "message" : "message-mock",
+  "id" :  23,
+  "age" : 30
+}
+```
+
+6.  Add mock interceptor to your existing retrofit configuration.
+```kotlin
+
 ```
