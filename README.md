@@ -2,25 +2,25 @@
 
 Light weight retrofit response mocker that easily integrates with existing Retrofit+OkHttp setup.
 
-- Supports `.json` mock response files
-- Supports regex url path mapping, highly configurable
+- Supports `.json` mock response files.
+- Supports regex url path mapping, highly configurable.
 - Plug and play, integrates seamlessly with existing retrofit+okhttp networking infrastructure.
-- Light weight
+- Light weight.
 
 ## Installation
-1. Add jitpack to project build.gradle
+1. Add jitpack to project build.gradle.
 ```gradle
 allprojects {
-   	repositories {
-   		...
-   		maven { url 'https://www.jitpack.io' }
-   	}
+    repositories {
+        ...
+        maven { url 'https://www.jitpack.io' }
+    }
 }
 ```
 2. Add the library dependency to app/build.gradle
 
 ```gradle
-  "com.github.tony15407075:retrofit-mock-interceptor:1.0.1"
+"com.github.tony15407075:retrofit-mock-interceptor:1.0.1"
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ allprojects {
 
 1.  Suppose you have defined this retrofit `GET` request in your app.
 ```kotlin
-// Suppose full url = https://www.some_base_url.com/users/{id}
+// Suppose full url = https://www.base_url.com/users/{id}
 @GET("user/{id}")
 fun getUser(@Path("id") id: String) : Call<User>
 ```
@@ -39,13 +39,13 @@ fun getUser(@Path("id") id: String) : Call<User>
 class GetUserMockSuccess : GetRequestMock {
 
     override fun urlPattern(): Pattern {
-        // https://www.some_base_url.com/2 --> Match
-        // https://www.some_base_url.com/10 --> Match
-        // https://www.some_base_url.com/223 --> Match
-        // https://www.some_base_url.com/tommy --> Non_Match
-        
+        // https://www.base_url.com/users/2 --> Match
+        // https://www.base_url.com/users/10 --> Match
+        // https://www.base_url.com/users/223 --> Match
+        // https://www.base_url.com/users/tommy --> Non_Match
+
         // Mock class maps to below url pattern
-        return Pattern.compile("https://www.some_base_url.com/[0-9]+")
+        return Pattern.compile("https://www.base_url.com/users/[0-9]+")
     }
 
     override fun response(): MockResponse {
@@ -55,7 +55,7 @@ class GetUserMockSuccess : GetRequestMock {
 }
 ```
 
-3.  Next define a corresponding `MockResponse` object
+3.  Next define a corresponding `MockResponse` object.
 ```kotlin
 class GetUserMockResponse : MockResponse {
     override fun fileResId(): Int {
@@ -70,20 +70,37 @@ class GetUserMockResponse : MockResponse {
 }
 ```
 
-4.  Create a `get_user_mock_response.json` your resources `/res/raw/` directory.[examples](https://github.com/tony15407075/retrofit-mock-interceptor/blob/master/app/src/debug/res/raw/test_mock_get_success.json)
+4.  Create a `get_user_mock_response.json` your resources `/res/raw/` directory.  [examples](https://github.com/tony15407075/retrofit-mock-interceptor/blob/master/app/src/debug/res/raw/test_mock_get_success.json).
 
-5.  Populate the `get_user_mock_response.json`
+5.  Populate the `get_user_mock_response.json`.
 
 ```json
 {
-  "name" :  "name-mock",
-  "message" : "message-mock",
-  "id" :  23,
-  "age" : 30
+    "name" :  "name-mock",
+    "message" : "message-mock",
+    "id" :  23,
+    "age" : 30
 }
 ```
 
-6.  Add mock interceptor to your existing retrofit configuration.
+6.  Add `MockInterceptor` to your retrofit's `OkHttpClient` configuration.
 ```kotlin
+val mockRequests = listOf<MockRequest>(
+    GetUserMockSuccess()
+    // Add additional MockRequests to this list
+)
 
+// resources = context.getResources()
+val mockInterceptor = MockInterceptor(resources, mockRequests)
+
+OkHttpClient okHttpClient = new OkHttpClient.Builder()
+   .addInterceptor(mockInterceptor)
+   .build();
+
+Retrofit retrofit = new Retrofit.Builder()
+   .baseUrl("your_api_base_url")
+   .client(okHttpClient)
+   .build();
 ```
+
+7.  Done!  Now every retrofit api call with url pattern matching `https://www.base_url.com/users/[0-9]+`, you will receive the mock response object define in ***step 5***.
