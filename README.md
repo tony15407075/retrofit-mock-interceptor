@@ -20,16 +20,19 @@ allprojects {
 2. Add the library dependency to app/build.gradle
 
 ```gradle
-"com.github.tony15407075:retrofit-mock-interceptor:1.0.1"
+implementation ("com.github.tony15407075:retrofit-mock-interceptor:1.0.1") {
+    exclude module: "okhttp"
+    exclude group: "androidx"
+}
 ```
 
 ## Usage
 
-### Example 1 - simple GET request
+### Example 1 : `GET` - wildcard(*) path
 
 1.  Suppose you have defined this retrofit `GET` request in your app.
 ```kotlin
-// Suppose full url = https://www.base_url.com/users/{id}
+// Suppose full url = https://www.base_url.com/user/{id}
 @GET("user/{id}")
 fun getUser(@Path("id") id: String) : Call<User>
 ```
@@ -39,13 +42,13 @@ fun getUser(@Path("id") id: String) : Call<User>
 class GetUserMockSuccess : GetRequestMock {
 
     override fun urlPattern(): Pattern {
-        // https://www.base_url.com/users/2 --> Match
-        // https://www.base_url.com/users/10 --> Match
-        // https://www.base_url.com/users/223 --> Match
-        // https://www.base_url.com/users/tommy --> Non_Match
+        // https://www.base_url.com/user/2 --> Match
+        // https://www.base_url.com/user/10 --> Match
+        // https://www.base_url.com/user/223 --> Match
+        // https://www.base_url.com/user/tommy --> Non_Match
 
         // Mock class maps to below url pattern
-        return Pattern.compile("https://www.base_url.com/users/[0-9]+")
+        return Pattern.compile("https://www.base_url.com/user/[0-9]+")
     }
 
     override fun response(): MockResponse {
@@ -94,13 +97,13 @@ val mockRequests = listOf<MockRequest>(
 val mockInterceptor = MockInterceptor(resources, mockRequests)
 
 OkHttpClient okHttpClient = new OkHttpClient.Builder()
-   .addInterceptor(mockInterceptor)
-   .build();
+    .addInterceptor(mockInterceptor)
+    .build();
 
 Retrofit retrofit = new Retrofit.Builder()
-   .baseUrl("your_api_base_url")
-   .client(okHttpClient)
-   .build();
+    .baseUrl("your_api_base_url")
+    .client(okHttpClient)
+    .build();
 ```
 
-7.  Done!  Now every retrofit api call with url pattern matching `https://www.base_url.com/users/[0-9]+`, you will receive the mock response object define in ***step 5***.
+7.  Done!  Now every retrofit api call with url pattern matching `https://www.base_url.com/user/[0-9]+`, you will receive the mock response object define in ***step 5***.
