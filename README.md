@@ -27,8 +27,8 @@ implementation ("com.github.tony15407075:retrofit-mock-interceptor:1.0.1") {
 ```
 
 ## Usage
-
-### Example 1 : `GET` - wildcard(*) path
+<details><summary><b>Example 1 : <code>GET</code> - wildcard(*) path</b></summary>
+<p>
 
 1.  Suppose you have defined this retrofit `GET` request in your app.
 ```kotlin
@@ -107,3 +107,20 @@ Retrofit retrofit = new Retrofit.Builder()
 ```
 
 7.  Done!  Now every retrofit api call with url pattern matching `https://www.base_url.com/user/[0-9]+`, you will receive the mock response object define in ***step 5***.
+</p>
+</details>
+
+
+
+<details><summary><b>Example 2 : <code>GET</code> - wildcard(*) query</b></summary>
+<p>
+
+1.  Suppose you have defined this retrofit `GET` request in your app.
+```kotlin
+// Suppose full url = https://www.base_url.com/user?name=steve&age=21
+@GET("user/{id}")
+fun getUser(@Path("id") id: String) : Call<User>
+```
+
+</p>
+</details>
