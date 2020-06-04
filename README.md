@@ -1,3 +1,4 @@
+
 # Retrofit-Mock-Interceptor  (Under-Construction)
 
 Light weight retrofit response mocker that easily integrates with existing Retrofit+OkHttp setup.
@@ -27,6 +28,7 @@ implementation ("com.github.tony15407075:retrofit-mock-interceptor:1.0.1") {
 ```
 
 ## Usage
+### GET
 <details><summary><b>Example 1 : <code>GET</code> - Path Wildcard 🃏</b></summary>
 <p>
 
@@ -209,7 +211,7 @@ fun getUser(@Query("name") name: String,
             @Query("age") age: Int) : Call<User>
 ```
 
-2.  Suppose you want to mock the above `GET` request for a specific user `{name="%John%", age=-12}`.  First define the corresponding `GetRequestMock`.  
+2.  To mock the above `GET` request for a specific user `{name="%John%", age=-12}`.  First define the corresponding `GetRequestMock`.  
 
 #### *Important !!* - For exact query/path matching make sure you include special characters (*&^%%# ... etc) for the unique query/path values.  This is require to differentiate between potential colliding wildcard (`*`) and unique url patterns.  Failure to do so might result in the wrong mock response object being returned.
 
@@ -236,6 +238,78 @@ class QueryUserMockSuccess : GetRequestMock {
 }
 ```
 
+</p>
+</details>
+
+### POST
+
+<details><summary><b>Example 4 : <code>POST</code> - Path Wildcard 🃏</b></summary>
+<p>
+
+1.  Suppose you have defined this retrofit `POST` request in your app.  
+```kotlin  
+// Suppose full url = https://www.base_url.com/user/12448  
+@POST("user/{id}")  
+fun createUser(@Path("id") int id)  
+```  
+2.  To mock the above `POST` request for any user `id`.  First define a `PostRequestMock`.  
+```kotlin  
+class PostUserMockSuccess : PostRequestMock {  
+  
+    override fun urlPattern(): Pattern {  
+        return Pattern.compile("https://www.base_url.com/user/[0-9]+")  
+    }  
+  
+    override fun response(): MockResponse {  
+        return PostUserMockResponse()  
+    }  
+}  
+```  
+  
+3.  Next define a corresponding `MockResponse` object.  
+```kotlin  
+class PostUserMockResponse : MockResponse {  
+    override fun fileResId(): Int {  
+        // .json file of the mock response    
+        return R.raw.post_user_mock_response  
+	}  
+  
+    override fun statusCode(): Int {  
+        // status code of the response    
+        return 200  
+	}
+}  
+```  
+4.  Create a `post_user_mock_response.json` your resources `/res/raw/` directory.  [examples](https://github.com/tony15407075/retrofit-mock-interceptor/blob/master/app/src/debug/res/raw/test_mock_get_success.json).  
+  
+5.  Populate the `post_user_mock_response.json`.  
+  
+```json  
+{  
+    "message" : "successfully created user with {id}"  
+}  
+```  
+6.  Add `MockInterceptor` to your retrofit's `OkHttpClient` configuration.  
+```kotlin  
+val mockRequests = listOf<MockRequest>(  
+    PostUserMockSuccess()  
+    // Add additional MockRequests to this list  
+)  
+  
+// resources = context.getResources()  
+val mockInterceptor = MockInterceptor(resources, mockRequests)  
+  
+OkHttpClient okHttpClient = new OkHttpClient.Builder()  
+	.addInterceptor(mockInterceptor)  
+	.build();  
+  
+Retrofit retrofit = new Retrofit.Builder()  
+	.baseUrl("your_api_base_url")  
+	.client(okHttpClient)  
+	.build();  
+```  
+  
+7.  Done!  Now every retrofit `Post` request with url pattern matching `https://www.base_url.com/user/[0-9]+`, you will receive the mock response object define in ***step 5***.
 </p>
 </details>
 
