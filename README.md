@@ -1,12 +1,17 @@
+# Android-Retrofit-Mock-Interceptor
 
-# Retrofit-Mock-Interceptor  (Under-Construction)
+![enter image description here](https://github.com/tony15407075/retrofit-mock-interceptor/blob/master/static/logo.png)
 
-Light weight retrofit response mocker that easily integrates with existing Retrofit+OkHttp setup.
+Light weight retrofit response mocker for Android.  Easily integrates with existing Retrofit+OkHttp setup.
 
-- Supports `.json` mock response files.
-- Supports regex url path mapping, highly configurable.
-- Plug and play, integrates seamlessly with existing retrofit+okhttp networking infrastructure.
-- Light weight.
+ - Supports `.json` mock response files.
+ - Supports regex url path mapping, highly configurable.
+ - Plug and play, integrates seamlessly with existing retrofit+okhttp networking infrastructure.
+ - Light weight.
+## Pre-Requisites
+Make sure your Android app is using the following networking libraries.
+ - Retrofit
+ - OkHttp
 
 ## Installation
 1. Add jitpack to project build.gradle.
