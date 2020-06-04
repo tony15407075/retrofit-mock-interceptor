@@ -416,21 +416,9 @@ _The remaining steps (3,4,5,6,7) are the same as_ `POST` **Example #4**.  *But y
 1. Refer to `GET` **Example #1**, _but make sure to switch to correct mock type_ `DeleteRequestMock`
 
 </p>
-</details>
-  
-  
-  
-<details><summary><b>Example 9 : <code>DELETE</code> - Query Wildcard 🃏</b></summary>  
-<p>  
-
-1. Refer to `GET` **Example #2**, _but make sure to switch to correct mock type_ `DeleteRequestMock`
-  
-</p>  
 </details>  
   
-  
-  
-<details><summary><b>Example 10 : <code>DELETE</code> - Exact Match</b></summary>  
+<details><summary><b>Example 9 : <code>DELETE</code> - Exact Match</b></summary>  
 <p>  
 
 1. Refer to `GET` **Example #3**, _but make sure to switch to correct mock type_ `DeleteRequestMock`  
