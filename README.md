@@ -370,3 +370,41 @@ class PostUserMockSuccess : PostRequestMock {
 </details>
 
 
+
+### PUT
+<details><summary><b>Example 6 : <code>PUT</code> - Path Wildcard 🃏</b></summary>
+<p>
+
+1.  Suppose you have defined this retrofit `PUT` request in your app.  
+```kotlin  
+// Suppose full url = https://www.base_url.com/user/12448  
+@POST("user/{id}")  
+fun updateUser(@Path("id") int id, userPayload: UserPayload)
+```
+
+2.  To mock the above `PUT` request for any user `id`.  First define a `PutRequestMock`.  
+```kotlin  
+class PutUserMockSuccess : PutRequestMock {  
+  
+    override fun urlPattern(): Pattern {  
+        return Pattern.compile("https://www.base_url.com/user/[0-9]+")  
+    }  
+  
+    override fun response(): MockResponse {  
+        return PutUserMockResponse()  
+    }  
+}
+```  
+_The remaining steps (3,4,5,6,7) are the same as_ `POST` **Example #4**.  *But you might need to change your object/class/variable naming accordingly as needed.*
+
+</p>
+</details>
+
+<details><summary><b>Example 7 : <code>PUT</code> - Request Payload Targeted Matching</b></summary>
+<p>
+
+1.  *Refer to*  `POST`  **Example #5**, *but make sure to use the correct mock type* `PutRequestMock`
+
+</p>
+</details>
+
