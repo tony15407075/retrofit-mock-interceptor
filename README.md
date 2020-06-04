@@ -324,7 +324,7 @@ Retrofit retrofit = new Retrofit.Builder()
 @POST("user/{id}")  
 fun createUser(@Path("id") int id, userPayload: UserPayload)
 ```
-2. Now suppose you only want to mock the above `Post` for a specific userPayload.
+2. Now suppose you only want to mock the above :point_up:  `Post` for a specific userPayload.
 ```json
 // Post request userPayload
 {
@@ -334,7 +334,7 @@ fun createUser(@Path("id") int id, userPayload: UserPayload)
 }
 ```
 
-3.  To mock the above `POST` request for a specific request payload, first create a `PostRequestMock` then `@override` the `customMatcher()`   and define a customised match logic.
+3.  To mock the above `POST` request with the specific userPayload :point_up: , first create a `PostRequestMock` then `@override` the `customMatcher()`   and define your customised match logic.
 ```kotlin
 class PostUserMockSuccess : PostRequestMock {  
   
@@ -368,6 +368,5 @@ class PostUserMockSuccess : PostRequestMock {
 
 </p>
 </details>
-
 
 
