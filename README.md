@@ -313,6 +313,8 @@ Retrofit retrofit = new Retrofit.Builder()
 </p>
 </details>
 
+
+
 <details><summary><b>Example 5 : <code>POST</code> - Request Payload Targeted Matching  </b></summary>
 <p>
 
@@ -322,9 +324,9 @@ Retrofit retrofit = new Retrofit.Builder()
 @POST("user/{id}")  
 fun createUser(@Path("id") int id, userPayload: UserPayload)
 ```
-2. Now suppose you only want to mock the above `Post` for a specific request payload.
+2. Now suppose you only want to mock the above `Post` for a specific userPayload.
 ```json
-// Post request payload
+// Post request userPayload
 {
 	"name" : "John",
 	"country" : "Canada",
@@ -366,4 +368,6 @@ class PostUserMockSuccess : PostRequestMock {
 
 </p>
 </details>
+
+
 
