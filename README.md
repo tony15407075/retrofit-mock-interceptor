@@ -250,7 +250,7 @@ class QueryUserMockSuccess : GetRequestMock {
 ```kotlin  
 // Suppose full url = https://www.base_url.com/user/12448  
 @POST("user/{id}")  
-fun createUser(@Path("id") int id)  
+fun createUser(@Path("id") int id, userPayload: UserPayload)
 ```  
 2.  To mock the above `POST` request for any user `id`.  First define a `PostRequestMock`.  
 ```kotlin  
@@ -309,7 +309,61 @@ Retrofit retrofit = new Retrofit.Builder()
 	.build();  
 ```  
   
-7.  Done!  Now every retrofit `Post` request with url pattern matching `https://www.base_url.com/user/[0-9]+`, you will receive the mock response object define in ***step 5***.
+7.  Done!  Now every retrofit `Post` request with **any user payload** for url pattern matching `https://www.base_url.com/user/[0-9]+`, you will receive the mock response object define in ***step 5***.
+</p>
+</details>
+
+<details><summary><b>Example 5 : <code>POST</code> - Request Payload Targeted Matching  </b></summary>
+<p>
+
+1.  Suppose you have defined this retrofit  `POST`  request in your app.
+```kotlin
+// Suppose full url = https://www.base_url.com/user/12448  
+@POST("user/{id}")  
+fun createUser(@Path("id") int id, userPayload: UserPayload)
+```
+2. Now suppose you only want to mock the above `Post` for a specific request payload.
+```json
+// Post request payload
+{
+	"name" : "John",
+	"country" : "Canada",
+	"age" : 23
+}
+```
+
+3.  To mock the above `POST` request for a specific request payload, first create a `PostRequestMock` then `@override` the `customMatcher()`   and define a customised match logic.
+```kotlin
+class PostUserMockSuccess : PostRequestMock {  
+  
+    override fun urlPattern(): Pattern {  
+        return Pattern.compile("https://www.base_url.com/user/[0-9]+")  
+    }  
+  
+    override fun response(): MockResponse {  
+        return PostUserMockResponse()  
+    }
+
+	/**
+	  *  Define custom logic for matching mock with specific post request payload.
+	  *  @Returns 
+	  *        [true] if match is satisfied
+	  *        [false] otherwise
+	  */	
+	override fun customMatcher(requestBody: String): Boolean {  
+		// requestBody is the post requst payload in string, you might want to convert it
+		// to a Kotlin/Java object for easier processing.  I used Gson() here, but any other
+		// json parser is okay as well.
+	    val postPayload= Gson().fromJson(requestBody, UserPostRequestPayload::class.java)  
+	    
+	    return postPayload.name == "John" &&
+			   postPayload.country == "Canada" &&
+			   postPayload.age == 23
+	}
+}  
+```  
+*The remaining steps (4,5,6,7) are the same as* **Example #4***
+
 </p>
 </details>
 
