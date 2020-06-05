@@ -243,6 +243,8 @@ class QueryUserMockSuccess : GetRequestMock {
 }
 ```
 
+3.  The rest of the steps are same as Example (1) or (2)
+
 </p>
 </details>
 
